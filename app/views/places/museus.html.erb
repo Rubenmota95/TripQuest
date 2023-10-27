@@ -1,0 +1,54 @@
+<div class="cards mt-5 mb-5 ms-5 me-5" data-controller="favorite">
+  <% @places.each do |place| %>
+    <div class="card mb-5">
+      <img src="https://source.unsplash.com/random" alt="">
+      <div class="card-content">
+        <h2><%= place.name %></h2>
+        <p><%= place.description %></p>
+        <%= link_to 'Saiba mais ⇾', place, class: 'button' %>
+      </div>
+    </div>
+    <button class="favorite-button" data-favorites-id="<%= place.id %>">Favorite</button>
+  <% end %>
+</div>
+
+<script>
+$(document).ready(function() {
+  // Set up CSRF token for AJAX requests
+  var token = $('meta[name="csrf-token"]').attr('content');
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('X-CSRF-Token', token);
+    }
+  });
+
+  // Bind click event to buttons with class 'favorite-button'
+  $(document).on('click', '.favorite-button', function() {
+    // Get the place_id from the data attribute of the clicked button
+    var placeId = $(this).data('favorites-id');
+
+    // Log the place_id to the console (for testing purposes)
+    console.log('Place ID:', placeId);
+
+    // Send an AJAX request to favorite/unfavorite the place
+    $.ajax({
+      url: '/favorites',
+      method: 'POST',
+      data: { place_id: placeId },
+      success: function(response) {
+        if (response.status === 'added') {
+          console.log('Favorited successfully!');
+          // Update UI for favorited place (e.g., change button text or style)
+        } else if (response.status === 'removed') {
+          console.log('Unfavorited successfully!');
+          // Update UI for unfavorited place (e.g., revert button text or style)
+        }
+      },
+      error: function(error) {
+        console.error('Error favoriting/unfavoriting place:', error);
+        // Handle errors, if necessary
+      }
+    });
+  });
+});
+</script>

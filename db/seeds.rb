@@ -5,3 +5,27 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+import "faker"
+
+puts "Deleting Database...."
+Place.delete_all
+puts "Creating Database...."
+
+categories = ["museus", "trilhos", "lagoas", "aldeias"]
+
+20.times do
+  name = Faker::Lorem.words(number: 2).join(" ")
+  address = Faker::Address.full_address
+  description = Faker::Lorem.paragraph
+  category = categories.sample
+
+  Place.create!(
+    name: name.capitalize,
+    address: address.capitalize,
+    description: description.capitalize,
+    category: category
+  )
+end
+
+puts "Database Created!"
