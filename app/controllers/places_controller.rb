@@ -3,26 +3,49 @@ class PlacesController < ApplicationController
 
   def index
     @places = Place.all
+    @current_user = current_user
   end
 
   def museus
-    @places = Place.all.where(category: "museus")
+    @places = Place.where(category: 'museus')
+    @favorite_places = current_user.favorites.pluck(:place_id) if user_signed_in?
   end
 
   def lagoas
-    @places = Place.all.where(category: "lagoas")
+    @places = Place.where(category: 'lagoas')
+    @favorite_places = current_user.favorites.pluck(:place_id) if user_signed_in?
   end
 
   def trilhos
-    @places = Place.all.where(category: "trilhos")
+    @places = Place.where(category: 'trilhos')
+    @favorite_places = current_user.favorites.pluck(:place_id) if user_signed_in?
   end
 
   def aldeias
-    @places = Place.all.where(category: "aldeias")
+    @places = Place.where(category: 'aldeias')
+    @favorite_places = current_user.favorites.pluck(:place_id) if user_signed_in?
   end
 
   def show
     @place = Place.find(params[:id])
   end
 
+  def new
+    @place = Place.new
+  end
+
+  def create
+    @place = Place.new(place_params)
+    if @place.save
+      redirect_to place_path(@place)
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def place_params
+    params.require(:place).permit(:name, :category, :description, :address, photos: [] )
+  end
 end

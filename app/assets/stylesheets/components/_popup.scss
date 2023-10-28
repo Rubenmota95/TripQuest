@@ -1,0 +1,48 @@
+/* Customize the modal */
+.modal-content {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-body {
+  padding: 40px;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+/* Style close button */
+.close {
+  font-size: 24px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #888;
+}
+
+.close:hover,
+.close:focus {
+  color: #333;
+  cursor: pointer;
+}
+
+/* Customize backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Center the modal vertically and horizontally */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Add additional styles as needed */

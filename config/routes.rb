@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
+  
   root to: "pages#home"
 
   # Favorites routes
   post '/favorites', to: 'favorites#create', as: 'favorites'
   delete '/favorites/:id', to: 'favorites#destroy', as: 'destroy_favorite'
-  
+
 
   # Custom routes for places
   get 'museus', to: 'places#museus'

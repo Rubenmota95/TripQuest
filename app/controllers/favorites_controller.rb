@@ -1,4 +1,6 @@
 class FavoritesController < ApplicationController
+  before_action :authenticate_user!, only: [:create]
+
   def create
     place_id = params[:place_id]
     favorite = current_user.favorites.find_by(place_id: place_id)

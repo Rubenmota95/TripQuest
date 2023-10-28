@@ -1,0 +1,23 @@
+<%= simple_form_for(@place) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name, placeholder: 'Nome do Local' %>
+    <%= f.input :category, as: :select, collection: ['museus', 'lagoas', 'trilhos', 'aldeias'], prompt: 'Select Category'%>
+    <%= f.text_area :description, placeholder: "Coloca aqui uma Descrição", rows: 5, cols: 42 %>
+    <%= f.input :address, placeholder: 'Location of your place' %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  </div>
+
+  <div class="form-actions d-flex justify-content-between mt-4">
+    <div class="d-flex align-items-center">
+      <%= link_to "Cancelar", places_path, class: "btn btn-danger", style: "width: 129px; height: 40px"%>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success" routerLink="/places">
+      Criar
+      </button>
+    </div>
+  </div>
+<% end %>

@@ -1,12 +1,65 @@
-<div class="cards mt-5 ms-5 me-5">
+<div class="cards mt-5 mb-5 ms-5 me-5">
   <% @places.each do |place| %>
-    <div class="card mb-5">
-        <img src="https://source.unsplash.com/random" alt="">
-        <div class="card-content">
-          <h2><%= place.name %></h2>
-          <p><%= place.description %></p>
-          <%= link_to 'Saiba mais ⇾', place, class: 'button' %>
+    <div class="card mb-5 position-relative">
+      <% if user_signed_in? %>
+        <button class="favorite-button" data-favorites-id="<%= place.id %>">
+          <% if @favorite_places.include?(place.id) %>
+            <i class="fa-solid fa-bookmark green-book"></i>
+          <% else %>
+            <i class="fa-regular fa-bookmark white-book"></i>
+          <% end %>
+        </button>
+      <% else %>
+        <button class="favorite-button" data-favorites-id="<%= place.id %>">
+          <i class="fa-regular fa-bookmark white-book"></i>
+        </button>
+      <% end %>
+      <img src="https://source.unsplash.com/random" alt="">
+      <div class="card-content">
+        <h2><%= place.name %></h2>
+        <p><%= place.description %></p>
+        <%= link_to 'Saiba mais ⇾', place, class: 'button' %>
       </div>
     </div>
   <% end %>
 </div>
+
+<script>
+$(document).ready(function() {
+  var token = $('meta[name="csrf-token"]').attr('content');
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('X-CSRF-Token', token);
+    }
+  });
+
+  $(document).on('click', '.favorite-button', function() {
+    var placeId = $(this).data('favorites-id');
+    var button = $(this);
+
+    if (<%= user_signed_in? %> === true) {
+    var placeId = $(this).data('favorites-id');
+    var button = $(this);
+
+    $.ajax({
+      url: '/favorites',
+      method: 'POST',
+      data: { place_id: placeId },
+      success: function(response) {
+        if (response.status === 'added') {
+          button.find('i').removeClass('fa-regular fa-bookmark white-book').addClass('fa-solid fa-bookmark green-book'); // Toggle heart icon
+        } else if (response.status === 'removed') {
+          button.find('i').removeClass('fa-solid fa-bookmark green-book').addClass('fa-regular fa-bookmark white-book'); // Toggle heart icon
+        }
+      },
+      error: function(error) {
+        console.error('Error favoriting/unfavoriting place:', error);
+      }
+    });
+  } else {
+    // User is not logged in, redirect to the login page
+    window.location.href = '/users/sign_in'; // Adjust the URL according to your routes
+  }
+  });
+});
+</script>
