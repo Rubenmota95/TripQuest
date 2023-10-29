@@ -6,7 +6,7 @@
     <%= f.input :name, placeholder: 'Nome do Local' %>
     <%= f.input :category, as: :select, collection: ['museus', 'lagoas', 'trilhos', 'aldeias'], prompt: 'Select Category'%>
     <%= f.text_area :description, placeholder: "Coloca aqui uma Descrição", rows: 5, cols: 42 %>
-    <%= f.input :address, placeholder: 'Location of your place' %>
+    <%= f.input :address, placeholder: "Nome da Rua, Código Postal e Localidade" %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
   </div>
 

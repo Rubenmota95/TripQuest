@@ -28,6 +28,13 @@ class PlacesController < ApplicationController
 
   def show
     @place = Place.find(params[:id])
+    @markers = [
+      {
+        lat: @place.latitude,
+        lng: @place.longitude,
+        marker_html: render_to_string(partial: "marker")
+      }
+    ]
   end
 
   def new

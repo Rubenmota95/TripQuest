@@ -1,6 +1,6 @@
 .favorite-button {
   position: absolute;
-  top: -16px; /* 10px Adjust the top distance from the card */
+  top: 10px; /* 10px Adjust the top distance from the card */
   right: 10px; /* 10px Adjust the right distance from the card */
   background: none;
   border: none;
@@ -23,6 +23,10 @@
 }
 
 .favorite-button .green-book {
-  color: #2fdd95;
-  text-shadow: 1px 3px 3px rgba(0,0,0,0.2);
+  background: linear-gradient(to right, #22ff00, #01c901);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: 'Font Awesome 5 Free'; /* Replace with the appropriate font-family for your font-awesome version */
+  font-weight: 900;  text-shadow: 1px 3px 3px rgba(0,0,0,0.2);
 }
