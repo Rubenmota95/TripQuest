@@ -13,6 +13,21 @@
   text-shadow: 1px 3px 3px rgba(0,0,0,0.2);
 }
 
+.delete-place-button{
+  position: absolute;
+  top: 10px; /* 10px Adjust the top distance from the card */
+  left: 10px; /* 10px Adjust the right distance from the card */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 35px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  z-index: 1;
+  text-shadow: 1px 3px 3px rgba(0,0,0,0.2);
+}
+
 .favorite-button i.fas {
   transition: transform 0.3s ease;
 }
@@ -30,3 +45,33 @@
   font-family: 'Font Awesome 5 Free'; /* Replace with the appropriate font-family for your font-awesome version */
   font-weight: 900;  text-shadow: 1px 3px 3px rgba(0,0,0,0.2);
 }
+
+.btn-outline-primary.active {
+  background-color: yellow;
+}
+
+.star-rating {
+  font-size: 0;
+}
+
+.star {
+  display: none;
+}
+
+.star-label {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Add transition for smooth color change */
+}
+
+/* Set the default color of the star labels to black */
+.star-label:before {
+  content: "\2605"; /* Unicode character for a star */
+  color: #000000;
+}
+
+/* Change the color of the clicked star label to yellow */
+.star-label.clicked:before {
+  color: #FFD700;
+}
+

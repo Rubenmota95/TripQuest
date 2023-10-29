@@ -41,14 +41,65 @@
       <div class="card-infos">
           <div>
             <h2 class="mb-2"><%= @place.name %></h2>
-            <h4 class="mb-1"><%= @place.address %> <i class="fa-solid fa-location-dot text-danger fs-5"></i>
-</h4>
+            <h4 class="mb-1"><%= @place.address %> <i class="fa-solid fa-location-dot text-danger fs-5"></i></h4>
             <p><%= @place.description %></p>
           </div>
         </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-lg-7 mt-5">
+      <div class="card-show">
+        <p>just some thext</p>
+      </div>
+    </div>
+    <div class="col-lg-5 mt-5">
+      <div class="card-show mb-5">
+        <div class="container mt-6" >
+          <div class="form-inputs">
+            <%= simple_form_for([@place, @comment]) do |f| %>
+              <%= f.input :username %>
+              <div class="star-rating">
+                <% (1..5).to_a.each do |rating| %>
+                  <%= f.hidden_field :rating %>
+                  <%= label_tag "star#{rating}", '', class: 'star-label' %>
+                  <%= f.radio_button :rating, rating, class: 'star', id: "star#{rating}" %>
+                <% end %>
+              </div>
+              <%= f.input :text, label: 'Revisão', placeholder: 'Escreva a sua Revisão', as: :text, input_html: { rows: 5, cols: 50 } %>
+              <%= f.submit class: "btn btn-success" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+              <%# <div class="star-rating">
+      <label class="star-label" data-rating="1">★</label>
+      <label class="star-label" data-rating="2">★</label>
+      <label class="star-label" data-rating="3">★</label>
+      <label class="star-label" data-rating="4">★</label>
+      <label class="star-label" data-rating="5">★</label>
+    </div> %>
+<script>
+// Get all star labels
+const starLabels = document.querySelectorAll('.star-label');
+
+// Add a click event listener to each star label
+starLabels.forEach(starLabel => {
+  starLabel.addEventListener('click', () => {
+    // Remove the clicked class from all star labels
+    starLabels.forEach(starLabel => {
+      starLabel.classList.remove('clicked');
+    });
+
+    // Add the clicked class to the current star label
+    starLabel.classList.add('clicked');
+  });
+});
+
+</script>
       <%# <% if @spaceship.user != current_user %>
       <%# <div class="card-show mb-5">
         <div class="container mt-6" >

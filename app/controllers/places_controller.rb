@@ -28,6 +28,7 @@ class PlacesController < ApplicationController
 
   def show
     @place = Place.find(params[:id])
+    @comment = Comment.new(place: @place)
     @markers = [
       {
         lat: @place.latitude,
@@ -38,15 +39,34 @@ class PlacesController < ApplicationController
   end
 
   def new
-    @place = Place.new
+    if current_user.role == "admin"
+      @place = Place.new
+    else
+      redirect_to places_path, alert: "Access denied."
+    end
   end
 
   def create
-    @place = Place.new(place_params)
-    if @place.save
-      redirect_to place_path(@place)
+    if current_user.role == "admin"
+      @place = Place.new(place_params)
+      if @place.save
+        redirect_to place_path(@place)
+      else
+        render :new, status: :unprocessable_entity
+      end
     else
-      render :new, status: :unprocessable_entity
+      redirect_to root_path, alert: "Access denied."
+    end
+  end
+
+  def destroy
+    @place = Place.find(params[:id])
+    if current_user.role == "admin"
+      @place.destroy
+      puts "deleting place"
+      redirect_to places_path
+    else
+      redirect_to root_path, alert: "Access denied."
     end
   end
 

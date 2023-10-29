@@ -14,6 +14,11 @@
           <i class="fa-regular fa-bookmark white-book"></i>
         </button>
       <% end %>
+      <% if user_signed_in? && current_user.role == "admin" %>
+        <button class="delete-place-button" data-place-id="<%= place.id %>">
+          <i class="fa-regular fa-circle-xmark text-white"></i>
+        </button>
+      <% end %>
       <img src="https://source.unsplash.com/random" alt="">
       <div class="card-content">
         <h2><%= place.name %></h2>
@@ -62,4 +67,28 @@ $(document).ready(function() {
   }
   });
 });
+
+$(document).on('click', '.delete-place-button', function(event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  var placeId = $(this).data('place-id');
+  var button = $(this);
+  console.log(placeId);
+
+  $.ajax({
+    url: '/places/' + placeId,
+    method: 'DELETE',
+    headers: {
+      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+      // Handle success, for example, removing the deleted place from the DOM
+      button.closest('.card').remove();
+    },
+    error: function(error) {
+      console.error('Error deleting place:', error);
+    }
+  });
+});
+
 </script>

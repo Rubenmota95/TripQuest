@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  
+
   root to: "pages#home"
 
   # Favorites routes
@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   # Resourceful routes for places
   resources :places
+  resources :places do
+    resources :comments, only: [:create, :new]
+  end
 
   resources :users, only: [:show]
   # Define your other routes here
