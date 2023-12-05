@@ -1,24 +1,14 @@
-<div class="container mt-4" style="width: 400px">
-  <h1>Ja visitas-te <%= @place.name %>? Dá-nos uma review!</h1>
-  <%= simple_form_for([@place, @comment]) do |f| %>
-    <%= f.error_notification %>
-    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-    <div class="form-inputs">
-      <%= f.input :username, label: 'Your Name', placeholder: 'Your Name' %>
-      <%= f.input :text, label: 'Review Text', placeholder: 'Write your review here', as: :text, input_html: { rows: 5 } %>
-      <%= f.input :rating, label: 'Rating', collection: 1..5, as: :select, include_blank: false %>
+<h1>New Review</h1>
+<%= form_with(model: [@comment.place, @comment ]) do |form| %>
+  <div class="field">
+    <%= form.text :username %>
+    <%= form.text_field :text %>
+    <div class="c-rating c-rating--big" data-rating-value="<%= @comment.rating %>" >
+      <button name="comment[rating]" value="1" data-action="click->review#setRating" data-target='ratingInput'>1</button>
+      <button name="comment[rating]" value="2" data-action="click->review#setRating">2</button>
+      <button name="comment[rating]" value="3" data-action="click->review#setRating">3</button>
+      <button name="comment[rating]" value="4" data-action="click->review#setRating">4</button>
+      <button name="comment[rating]" value="5" data-action="click->review#setRating">5</button>
     </div>
-
-    <div class="form-actions d-flex justify-content-between mt-4">
-      <div class="d-flex align-items-center">
-        <%= link_to "Cancel", place_path(@place), class: "btn btn-danger", style: "width: 129px; height: 40px" %>
-      </div>
-      <div>
-        <%= f.button :submit, class: "btn btn-success", style: "width: 129px; height: 40px", data: { disable_with: 'Creating...' } do %>
-          Create
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-</div>
+    <%= form.submit "Send" %>
+  </div>
